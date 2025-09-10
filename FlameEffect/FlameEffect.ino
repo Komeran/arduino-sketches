@@ -13,7 +13,7 @@ const uint8_t SHAKE_THRESHOLD = 20;
 // The intensity of randomness of our flame effect. Ranges from 0 to 255.
 const uint16_t FLAME_FLICKER_INTENSITY = 100;
 // The temperature threshold in °C under which it is considered cold temperature. (For blue flame effect)
-const uint8_t COLD_TEMP_THRESHOLD = 20;
+const uint8_t COLD_TEMP_THRESHOLD = 10;
 // For color simulation, colors are only simulated every SIMULATE_COLOR_ITERATION_OFFSET loop iterations.
 const uint8_t SIMULATE_COLOR_ITERATION_OFFSET = 3;
 
@@ -38,6 +38,7 @@ void setup() {
   randomSeed(CircuitPlayground.soundSensor());
 
   CircuitPlayground.begin();
+  CircuitPlayground.speaker.off();
 }
 
 // returns true if the temperature sensor reads a value below the temperatureThreshold (in °C)
