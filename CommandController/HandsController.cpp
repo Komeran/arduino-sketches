@@ -7,7 +7,8 @@ void initHandsController(HandsController* controller) {
 }
 
 // Update local hand from sensors
-void updateLocalHand(HandsController* controller, Finger fingers[FINGER_COUNT]) {
+void updateLocalHand(HandsController* controller) {
+    updateAllFingers(false, false);
     controller->localMask = getFingerBitmask(fingers);
 }
 

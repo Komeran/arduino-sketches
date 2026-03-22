@@ -17,7 +17,11 @@ void loop() {
   
   if(newMask != mask) {
     mask = newMask;
+    uint8_t checksum = mask ^ 0xFF;
+
+    Serial.write(0xAA);
     Serial.write(mask);
+    Serial.write(checksum);
   }
 
   delay(100);

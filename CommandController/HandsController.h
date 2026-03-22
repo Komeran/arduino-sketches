@@ -13,7 +13,7 @@ struct HandsController {
 void initHandsController(HandsController* controller);
 
 // Update masks
-void updateLocalHand(HandsController* controller, Finger fingers[FINGER_COUNT]);
+void updateLocalHand(HandsController* controller);
 void updateRemoteHand(HandsController* controller, uint8_t remoteMask);
 
 // Combine into 16-bit command

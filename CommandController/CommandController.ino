@@ -3,6 +3,19 @@
 
 HandsController controller;
 
+void readRemoteHand() {
+  if (Serial.available() >= 3) {
+    if (Serial.read() == 0xAA) {
+      uint8_t mask = Serial.read();
+      uint8_t checksum = Serial.read();
+
+      if (checksum == (mask ^ 0xFF)) {
+        updateRemoteHand(&controller, mask);
+      }
+    }
+  }
+}
+
 void setup() {
   Serial.begin(9600);
 
@@ -14,23 +27,10 @@ void setup() {
 }
 
 void loop() {
-  updateAllFingers(false, false);
+  updateLocalHand(&controller);
+  readRemoteHand();
 
-  // Update local hand
-  updateLocalHand(&controller, fingers);
-
-  // Read remote hand if available
-  if (Serial.available() > 0) {
-    uint8_t remote = Serial.read();
-    updateRemoteHand(&controller, remote);
-  }
-
-  // Build command
   uint16_t command = getCommand(&controller);
-
-  // Debug
-  Serial.print("Command: ");
-  Serial.println(command, BIN);
 
   delay(100);
 }
