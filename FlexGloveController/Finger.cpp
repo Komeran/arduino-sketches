@@ -20,40 +20,42 @@ void printFinger(struct Finger *finger) {
 
 void updateAllFingers(bool printGesture, bool printFingers) {
   for(uint8_t i = 0; i < FINGER_COUNT; i++) {
-    if(updateFinger(&fingers[i], printFingers) && printGesture) {
-  
-      const Gesture* g = detectGesture(fingers);
-      
-      Serial.print("Gesture: ");
-      if (g != nullptr) {
-        Serial.println(g->name);
+    Finger *f = &fingers[i];
+    if(updateFinger(f)) {
+      if(printFingers) {
+        printFinger(f);
       }
-      else {
-        Serial.println("NONE");
+
+      if(printGesture) {
+        const Gesture* g = detectGesture(fingers);
+        
+        Serial.print("Gesture: ");
+        if (g != nullptr) {
+          Serial.println(g->name);
+        }
+        else {
+          Serial.println("NONE");
+        }
       }
     }
   }
 }
 
-bool updateFinger(struct Finger *finger, bool printIfUpdate) {
+bool updateFinger(struct Finger *finger) {
   int newValue = analogRead(finger->pin);
 
   if(newValue != finger->value) {
     finger->value = newValue;
 
     // --- Flex logic ---
-    if (finger->isFlexed && newValue > STRAIGHT_THRESHOLD) {
+    if (finger->isFlexed && newValue < STRAIGHT_THRESHOLD) {
       finger->isFlexed = false;
+      return true;
     }
-    else if (!finger->isFlexed && newValue < FLEXED_THRESHOLD) {
+    else if (!finger->isFlexed && newValue > FLEXED_THRESHOLD) {
       finger->isFlexed = true;
+      return true;
     }
-
-    if(printIfUpdate) {
-      printFinger(finger);
-    }
-
-    return true;
   }
 
   return false;

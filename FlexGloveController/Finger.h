@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#define FLEXED_THRESHOLD 300
+#define FLEXED_THRESHOLD 1000
 #define STRAIGHT_THRESHOLD 700
 #define FINGER_COUNT 5
 
@@ -18,7 +18,7 @@ extern Finger fingers[FINGER_COUNT];
 
 void printFinger(struct Finger *finger);
 void updateAllFingers(bool printGesture, bool printFinger);
-bool updateFinger(struct Finger *finger, bool printIfUpdate);
+bool updateFinger(struct Finger *finger);
 
 // GESTURES
 

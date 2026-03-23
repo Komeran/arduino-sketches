@@ -8,20 +8,20 @@ void setup() {
     pinMode(fingers[i].pin, INPUT);
   }
 
-  updateAllFingers(false, false);
+  updateAllFingers(false, true);
 }
 
 void loop() {
-  updateAllFingers(false, false);
+  updateAllFingers(false, true);
   uint8_t newMask = getFingerBitmask(fingers);
   
   if(newMask != mask) {
     mask = newMask;
-    uint8_t checksum = mask ^ 0xFF;
+    /*uint8_t checksum = mask ^ 0xFF;
 
     Serial.write(0xAA);
     Serial.write(mask);
-    Serial.write(checksum);
+    Serial.write(checksum);*/
   }
 
   delay(100);
